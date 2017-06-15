@@ -72,3 +72,23 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 
 	return nil, errors.New("Received unknown function query: " + function)
 }
+
+//change owner test
+func (t *SimpleChaincode) changeOwner(stub shim.ChaincodeStubInterface, args []string) ([]byte, error){
+	var asset, newowner string
+	var err error
+	fmt.Println("running write()")
+
+	if len(args) != 2 {
+		return nil, errors.New("incorrect num of arguments. Expecting 2")
+
+	}
+
+	asset = args[0]
+	newowner = args[1]
+	err = stub.PutState(asset, []byte(newowner))
+	if err != nil{
+		return nil,err
+	}
+	return nil,nil
+}
